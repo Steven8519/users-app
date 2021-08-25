@@ -7,7 +7,7 @@ spec:
     matchLabels:
       app: developerhub-user-service
   replicas: 1
-  template: # template for the pods
+  template:
     metadata:
       labels:
         app: developerhub-user-service
@@ -15,20 +15,18 @@ spec:
       containers:
         - name: developerhub-user-service
           image: steven8519/developerhub-user-service:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: user-service
+  name: developerhub-user-service
 spec:
   selector:
     app: developerhub-user-service
   ports:
-    - name: http
-      port: 8080
-      nodePort: 30010
-
-    - name: endpoint
-      port: 61616
-
-  type: NodePort
+    - port: 8080
+      protocol: TCP
+      targetPort: 8080
